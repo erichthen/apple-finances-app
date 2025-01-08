@@ -3,8 +3,11 @@ import os
 from dotenv import load_dotenv
 import requests
 from flask import jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+#allow cross origin requests from frontend
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 load_dotenv()
 
 FMP_API_KEY = os.getenv("FMP_API_KEY")
