@@ -2,7 +2,7 @@ from flask import Flask
 import os
 from dotenv import load_dotenv
 import requests
-from flask import jsonify, Response
+from flask import jsonify
 
 app = Flask(__name__)
 load_dotenv()
@@ -18,8 +18,24 @@ def get_data():
         response = requests.get(url)
         #check the status code
         response.raise_for_status()
-        
-        return Response(response.content, content_type="application/json")
+        #convert to a list of dictionaries so we can filter it
+        data = response.json()
+
+        #build another list of dictionaries, extracting only the fields we will display
+        filtered_data = [
+            {
+                "date": item["date"],
+                "Revenue": item["revenue"],
+                "Net Income": item["netIncome"],
+                "Gross Profit": item["grossProfit"],
+                "EPS": item["eps"],
+                "Operating Income": item["operatingIncome"]
+            }
+            for item in data
+        ]
+
+        #return back json for the frontend to use
+        return jsonify(filtered_data)
     
     except requests.exceptions.RequestException as e:
         return jsonify({"error": str(e)}), 500

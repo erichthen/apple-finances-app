@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/erichthen2/Desktop/apple-finances-app/backend/apple-finances-venv"
+set -gx VIRTUAL_ENV "/Users/erichthen2/Desktop/apple-revenue-chart/backend/apple-finances-venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
