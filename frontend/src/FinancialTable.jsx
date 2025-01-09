@@ -14,34 +14,44 @@ const FinancialTable = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-  <div className="w-full max-w-6xl text-center px-4">
-    <h1 className="text-2xl font-bold mb-6">Financial Analytics of Apple</h1>
-    <table className="table-auto w-full border-collapse border border-gray-300">
-      <thead>
-        <tr>
-          <th className="border border-gray-300 px-4 py-2 text-center">Date</th>
-          <th className="border border-gray-300 px-4 py-2 text-center">Revenue</th>
-          <th className="border border-gray-300 px-4 py-2 text-center">Gross Profit</th>
-          <th className="border border-gray-300 px-4 py-2 text-center">Net Income</th>
-          <th className="border border-gray-300 px-4 py-2 text-center">EPS</th>
-          <th className="border border-gray-300 px-4 py-2 text-center">Operating Income</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, index) => (
-          <tr key={index} className="hover:bg-gray-200">
-            <td className="border border-gray-300 px-4 py-2">{item.date}</td>
-            <td className="border border-gray-300 px-4 py-2">{item["Revenue"]}</td>
-            <td className="border border-gray-300 px-4 py-2">{item["Gross Profit"]}</td>
-            <td className="border border-gray-300 px-4 py-2">{item["Net Income"]}</td>
-            <td className="border border-gray-300 px-4 py-2">{item["EPS"]}</td>
-            <td className="border border-gray-300 px-4 py-2">{item["Operating Income"]}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
+        <div className="w-full max-w-6xl text-center px-4">
+          <h1 className="text-2xl font-bold mb-6">Financial Analytics of Apple</h1>
+          <div className="flex justify-end mb-4">
+            <p>Sort by: </p>
+            <div className="relative">
+                <button
+                  className="bg-black text-white px-2 py-1 rounded shadow hover:bg-blue-600"
+                >
+                Date: Descending
+                </button>
+            </div>
+        </div>
+          <table className="table-auto w-full border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th className="border border-gray-300 px-4 py-2 text-center">Date</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Revenue</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Gross Profit</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Net Income</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">EPS</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Operating Income</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={index} className="hover:bg-gray-200">
+                  <td className="border border-gray-300 px-4 py-2">{item.Date}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item["Revenue"]}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item["Gross Profit"]}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item["Net Income"]}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item["EPS"]}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item["Operating Income"]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+    </div>
   );
 };
 
