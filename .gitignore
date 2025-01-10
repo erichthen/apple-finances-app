@@ -25,3 +25,6 @@ dist-ssr
 
 #environment variables 
 backend/.env
+
+#virtual env
+backend/apple-finances-venv/

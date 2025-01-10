@@ -5,7 +5,7 @@ import requests
 from flask_cors import CORS
 
 app = Flask(__name__)
-#allow cross origin requests from only the specified origin (the frontend local host)
+#allow cross origin requests only from the specified local host (frontend)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 load_dotenv()
 
@@ -19,7 +19,6 @@ def get_data():
         #send request to url, returns data and http status code
         response = requests.get(url)
         response.raise_for_status()
-        #convert to a list of dictionaries so we can filter it
         data = response.json()
 
         #build another list of dictionaries, extracting only the fields we will display
@@ -34,6 +33,7 @@ def get_data():
             }
             for item in data
         ]
+        
 
         #get filter parameters from the request (url arg)
         start_year = request.args.get("startYear", type=int)
@@ -57,6 +57,7 @@ def get_data():
         if max_net_income:
             data_table = [row for row in data_table if row["NetIncome"] <= max_net_income]
 
+
         #get sorting parameters from the request
         sort_by = request.args.get("sortBy", default="Date")  
         sort_order = request.args.get("sortOrder", default="desc") 
@@ -77,7 +78,7 @@ def get_data():
 
 @app.route("/")
 def home():
-    return "Backend is running"
+    return "Backend is active. Append /api/data to URL to see data"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
