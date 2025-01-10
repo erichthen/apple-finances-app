@@ -76,7 +76,18 @@ const FinancialTable = () => {
                 ))}
               </ul>
             )}
-          </div>
+            </div>
+          <div>
+          <div className="ml-auto">
+    <div
+      className="font-bold cursor-pointer hover:underline flex items-center"
+      onClick={() => setFilterOpen(true)} // Open the filter popup
+    >
+      <img src="/filter.png" alt="Filter Icon" className="w-4 h-4 ml-10 mr-1" />
+      <span>Filter</span>
+    </div>
+  </div>
+        </div>
         </div>
         <div className="overflow-x-auto">
           <table className="table-auto w-full border-collapse border border-gray-300">
