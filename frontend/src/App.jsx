@@ -1,10 +1,10 @@
 import React from "react";
-import FinancialTable from "./FinancialTable";
+import RevenueChart from "./RevenueChart";
 
 const App = () => {
   return (
     <div className="p-4">
-      <FinancialTable />
+      <RevenueChart />
     </div>
   );
 };

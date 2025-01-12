@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 const API_URL = "http://127.0.0.1:5000/api/data";
 
-const FinancialTable = () => {
+const RevenueChart = () => {
   const [data, setData] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState("Date: Descending");
@@ -372,4 +372,4 @@ const FinancialTable = () => {
   
 };
 
-export default FinancialTable;
+export default RevenueChart;
