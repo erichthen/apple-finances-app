@@ -79,7 +79,7 @@ def get_data():
 
 @app.route("/")
 def home():
-    return "Backend is active. Append /api/data to URL to see data"
+    return ""
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

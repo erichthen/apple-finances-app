@@ -17,6 +17,7 @@ const FinancialTable = () => {
   const [maxNetIncome, setMaxNetIncome] = useState("");
 
   //to keep track of the temorary values stored in the filter input fields
+  //so the fetch isn't called as soon as a field value changes, rather when apply is clicked
   const [tempStartYear, setTempStartYear] = useState("");
   const [tempEndYear, setTempEndYear] = useState("");
   const [tempMinRevenue, setTempMinRevenue] = useState("");
@@ -51,6 +52,18 @@ const FinancialTable = () => {
     "Gross Profit": ["Gross Profit", "is a company's profit after deducting the direct costs of its goods and services from its revenue."],
     "EPS": ["Earnings Per Share", "(EPS) reflects how much profit is earned for each outstanding share of its stock."],
     "Operating Income": ["Operating Income", "is a company's profit after deducting operating expenses (salaries, rent, advertising, etc.) from its revenue."],
+  };
+
+  //if this is not true, the filter will say "active"
+  const areFiltersActive = () => {
+    return (
+      startYear ||
+      endYear ||
+      minRevenue ||
+      maxRevenue ||
+      minNetIncome ||
+      maxNetIncome
+    );
   };
 
 
@@ -92,19 +105,23 @@ const FinancialTable = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []); 
-
+  
   return (
     <div
-      className="flex flex-col items-center min-h-screen overflow-y-auto mt-16" style={{ backgroundColor: "#FFFCF6", }}>
-      <h1 className="text-2xl font-bold mb-10 text-center"> Recent Income Statements <br /> of Apple Inc.<br /></h1>
+      className="flex flex-col items-center min-h-[700px] md:min-h-screen overflow-y-auto mt-16"
+      style={{ backgroundColor: "#FFFCF6" }}
+    >
+      <h1 className="text-2xl font-bold mb-10 text-center">
+        Recent Income Statements <br /> of Apple Inc.<br />
+      </h1>
       <div className="w-full max-w-6xl px-4 relative">
-        {/*sort toggle, icon, dropdown div*/}
+        {/* Sort toggle, icon, dropdown div */}
         <div className="flex justify-start items-center gap-4 mb-1">
           <div className="relative" ref={dropdownRef}>
             <div
               className="font-bold cursor-pointer hover:underline flex items-center mb-1"
               onClick={(e) => {
-                //isolate the click event listener to the dropdown 
+                //don't include the dropdown in the click event listener to close the dropdown
                 e.stopPropagation();
                 setDropdownOpen(!dropdownOpen);
               }}
@@ -133,11 +150,10 @@ const FinancialTable = () => {
             )}
           </div>
         </div>
-        <div className="mb-6 overflow-x-auto">
+        <div className="mb-2 overflow-x-auto">
           <table className="table-auto w-full border-collapse border border-black">
             <thead>
               <tr>
-                //map the keys (metrics) to be table headers with an info button
                 {Object.keys(columnInfo).map((key) => (
                   <th
                     key={key}
@@ -145,6 +161,7 @@ const FinancialTable = () => {
                   >
                     <div className="flex justify-center items-center space-x-2">
                       <span className="flex-shrink-0">{key}</span>
+                      {/*Date is self explanatory, so it doesn't need an info icon or definition*/}
                       {key !== "Date" && (
                         <button
                           className="flex-shrink-0 ml-2"
@@ -204,127 +221,136 @@ const FinancialTable = () => {
             </tbody>
           </table>
         </div>
-        <div className="relative flex items-center gap-4 flex-wrap -mt-4">
+        <div className="relative flex flex-col items-center gap-4 mt-0">
           <div
-            className="font-bold cursor-pointer hover:underline flex items-center ml-1"
+            className="font-bold cursor-pointer hover:underline flex items-center -mb-2 mr-4"
             onClick={() => setFilterOpen(!filterOpen)}
           >
             <img
               src="/filter.png"
               alt="Filter Icon"
-              className="w-3 h-3 mr-1 -mt-1"
+              className="w-3 h-3 mr-1"
             />
-            <span className="-mt-1">Filter</span>
+            <span>Filter {areFiltersActive() && "(active)"}</span>
           </div>
-          <div
-            className={`flex items-center gap-2 flex-wrap transition-opacity duration-300 ${
-              filterOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <input
-              type="text"
-              value={tempStartYear}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, "");
-                setTempStartYear(value);
-              }}
-              placeholder="Start Year"
-              style={{ fontSize: "14px" }}
-              className="w-24 border border-black rounded px-2 py-1"
-            />
-            <input
-              type="text"
-              value={tempEndYear}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, "");
-                setTempEndYear(value);
-              }}
-              placeholder="End Year"
-              style={{ fontSize: "14px" }}
-              className="w-24 border border-black rounded px-2 py-1"
-            />
-            <input
-              type="text"
-              value={tempMinRevenue}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, "");
-                setTempMinRevenue(value);
-              }}
-              placeholder="Min Revenue"
-              style={{ fontSize: "14px" }}
-              className="w-28 border border-black rounded px-2 py-1"
-            />
-            <input
-              type="text"
-              value={tempMaxRevenue}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, "");
-                setTempMaxRevenue(value);
-              }}
-              placeholder="Max Revenue"
-              style={{ fontSize: "14px" }}
-              className="w-28 border border-black rounded px-2 py-1"
-            />
-            <input
-              type="text"
-              value={tempMinNetIncome}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, "");
-                setTempMinNetIncome(value);
-              }}
-              placeholder="Min Net Income"
-              style={{ fontSize: "14px" }}
-              className="w-32 border border-black rounded px-2 py-1"
-            />
-            <input
-              type="text"
-              value={tempMaxNetIncome}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, "");
-                setTempMaxNetIncome(value);
-              }}
-              placeholder="Max Net Income"
-              style={{ fontSize: "14px" }}
-              className="w-32 border border-black rounded px-2 py-1"
-            />
-            <button
-              onClick={() => {
-                setStartYear(tempStartYear);
-                setEndYear(tempEndYear);
-                setMinRevenue(tempMinRevenue);
-                setMaxRevenue(tempMaxRevenue);
-                setMinNetIncome(tempMinNetIncome);
-                setMaxNetIncome(tempMaxNetIncome);
-              }}
-              className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800 font-bold ml-2 mr-0"
-            >
-              Apply
-            </button>
-            <button
-              onClick={() => {
-                setStartYear("");
-                setEndYear("");
-                setMinRevenue("");
-                setMaxRevenue("");
-                setMinNetIncome("");
-                setMaxNetIncome("");
-                setTempStartYear("");
-                setTempEndYear("");
-                setTempMinRevenue("");
-                setTempMaxRevenue("");
-                setTempMinNetIncome("");
-                setTempMaxNetIncome("");
-              }}
-              className={`font-bold ml-0 px-3 py-1 rounded text-white ${
-                isResetClicked ? "bg-red-600" : "bg-gray-500 hover:bg-gray-400"
-              }`}
-              style={{
-                transition: "background-color 200ms ease",
-              }}
-            >
-              Reset
-            </button>
-          </div>
+          {/*Filter input section. Changes to inputs change temp filter values*/}
+          {filterOpen && (
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-col items-center">
+                  <input
+                    type="text"
+                    value={tempStartYear}
+                    //not using type="number" because I don't want spinner controls. 
+                    //therfore, digit validation is needed
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      setTempStartYear(value);
+                    }}
+                    className="w-28 border border-black rounded px-2 py-1"
+                  />
+                  <label className="text-sm">Start Year</label>
+                </div>
+                <div className="flex flex-col items-center">
+                  <input
+                    type="text"
+                    value={tempEndYear}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      setTempEndYear(value);
+                    }}
+                    className="w-28 border border-black rounded px-2 py-1"
+                  />
+                  <label className="text-sm">End Year</label>
+                </div>
+                <div className="flex flex-col items-center">
+                  <input
+                    type="text"
+                    value={tempMinRevenue}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      setTempMinRevenue(value);
+                    }}
+                    className="w-28 border border-black rounded px-2 py-1"
+                  />
+                  <label className="text-sm">Min Revenue</label>
+                </div>
+                <div className="flex flex-col items-center">
+                  <input
+                    type="text"
+                    value={tempMaxRevenue}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      setTempMaxRevenue(value);
+                    }}
+                    className="w-28 border border-black rounded px-2 py-1"
+                  />
+                  <label className="text-sm">Max Revenue</label>
+                </div>
+                <div className="flex flex-col items-center">
+                  <input
+                    type="text"
+                    value={tempMinNetIncome}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      setTempMinNetIncome(value);
+                    }}
+                    className="w-28 border border-black rounded px-2 py-1"
+                  />
+                  <label className="text-sm">Min Net Income</label>
+                </div>
+                <div className="flex flex-col items-center">
+                  <input
+                    type="text"
+                    value={tempMaxNetIncome}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      setTempMaxNetIncome(value);
+                    }}
+                    className="w-28 border border-black rounded px-2 py-1"
+                  />
+                  <label className="text-sm">Max Net Income</label>
+                </div>
+              </div>
+              <div className="flex justify-center gap-4 -mt-1">
+                <button
+                  onClick={() => {
+                    setStartYear("");
+                    setEndYear("");
+                    setMinRevenue("");
+                    setMaxRevenue("");
+                    setMinNetIncome("");
+                    setMaxNetIncome("");
+                    setTempStartYear("");
+                    setTempEndYear("");
+                    setTempMinRevenue("");
+                    setTempMaxRevenue("");
+                    setTempMinNetIncome("");
+                    setTempMaxNetIncome("");
+                  }}
+                  className="font-bold px-2 py-1 text-black hover:underline"
+                >
+                  Reset
+                </button>
+                <button
+                  onClick={() => {
+                    //assign temp filter values to actual filter values when apply
+                    //is clicked, thus the program fetches when apply is clicked, not when
+                    //an input value changes
+                    setStartYear(tempStartYear);
+                    setEndYear(tempEndYear);
+                    setMinRevenue(tempMinRevenue);
+                    setMaxRevenue(tempMaxRevenue);
+                    setMinNetIncome(tempMinNetIncome);
+                    setMaxNetIncome(tempMaxNetIncome);
+                  }}
+                  className="font-bold px-2 py-1 text-black hover:underline mr-1"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         {infoPopup && (
           <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-12 w-full max-w-md text-center">
@@ -334,7 +360,7 @@ const FinancialTable = () => {
             </p>
             <button
               onClick={() => setInfoPopup(null)}
-              className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800 mt-5 block mx-auto font-bold"
+              className="font-bold px-2 py-1 text-black hover:underline mr-2 mt-2"
             >
               Got it
             </button>
