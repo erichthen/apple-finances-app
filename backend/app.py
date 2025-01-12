@@ -7,6 +7,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 #allow cross origin requests only from the specified local host (frontend)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+
 load_dotenv()
 
 FMP_API_KEY = os.getenv("FMP_API_KEY")
