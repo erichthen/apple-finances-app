@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const API_URL = process.env.NODE_ENV === "production" ? "https://your-deployed-backend-url/api/data" : "http://127.0.0.1:5000/api/data";
+const API_URL = process.env.NODE_ENV === "production" ? "to-implement-backend-url" : "http://127.0.0.1:5000/api/data";
 
 const RevenueChart = () => {
   const [data, setData] = useState([]);
