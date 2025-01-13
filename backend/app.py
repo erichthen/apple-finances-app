@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 #allow cross origin requests 
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "https://apple-income-chart.vercel.app"]}})
 
 load_dotenv()
 
