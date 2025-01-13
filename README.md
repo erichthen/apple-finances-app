@@ -1,6 +1,5 @@
-# Link:
-https://apple-income-chart.vercel.app
-**NOTE:** Due to API call limits, my app will not be able to retrieve data until around 11:00 to 11:30pm EST on January 13th. Also, if a request takes a long time, that is because the server spun down due to incactivity and has to cold start.
+# Link: https://apple-income-chart.vercel.app
+**NOTE:** Due to API call limits, my app will not be able to retrieve data until around 11:00 to 11:30pm EST on January 13th. Also, if a request takes a long time, that is because the backend server spun down due to incactivity and has to cold start (using free tier of Render to host backend).
 
 # Instructions to Run Locally
 
@@ -73,5 +72,4 @@ If not installed already, install **Node.js**, **Python (version 3.8 or higher)*
   CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "https://apple-income-chart.vercel.app"]}})
 
 - If the backend is running and properly retrieving data and you get an error fetching data from the frontend, it could be a CORS caching problem, so clear your browser cache or test in an incognito window. 
-
 
