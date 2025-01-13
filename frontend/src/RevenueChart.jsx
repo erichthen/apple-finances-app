@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const API_URL = "http://127.0.0.1:5000/api/data";
+const API_URL = process.env.NODE_ENV === "production" ? "https://your-deployed-backend-url/api/data" : "http://127.0.0.1:5000/api/data";
 
 const RevenueChart = () => {
   const [data, setData] = useState([]);
@@ -27,7 +27,6 @@ const RevenueChart = () => {
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [infoPopup, setInfoPopup] = useState(null);
-  const [isResetClicked, setIsResetClicked] = useState(false);
 
   const [loading, setLoading] = useState(true); 
 
@@ -111,9 +110,7 @@ const RevenueChart = () => {
       className="flex flex-col items-center min-h-[700px] md:min-h-screen overflow-y-auto mt-16"
       style={{ backgroundColor: "#FFFCF6" }}
     >
-      <h1 className="text-2xl font-bold mb-10 text-center">
-        Recent Income Statements <br /> of Apple Inc.<br />
-      </h1>
+      <h1 className="text-2xl font-bold mb-10 text-center"> Recent Income Statements <br /> of Apple Inc.<br /></h1>
       <div className="w-full max-w-6xl px-4 relative">
         {/* Sort toggle, icon, dropdown div */}
         <div className="flex justify-start items-center gap-4 mb-1">
@@ -154,19 +151,14 @@ const RevenueChart = () => {
           <table className="table-auto w-full border-collapse border border-black">
             <thead>
               <tr>
+                {/*map the keys (which are the metrics we are looking at) to a table header and an info icon button) */}
                 {Object.keys(columnInfo).map((key) => (
-                  <th
-                    key={key}
-                    className="border border-black px-4 py-2 text-center whitespace-nowrap"
-                  >
+                  <th key={key} className="border border-black px-4 py-2 text-center whitespace-nowrap">
                     <div className="flex justify-center items-center space-x-2">
                       <span className="flex-shrink-0">{key}</span>
-                      {/*Date is self explanatory, so it doesn't need an info icon or definition*/}
+                      {/*Date doesn't need an info icon or definition*/}
                       {key !== "Date" && (
-                        <button
-                          className="flex-shrink-0 ml-2"
-                          onClick={() => setInfoPopup(key)}
-                        >
+                        <button className="flex-shrink-0 ml-2" onClick={() => setInfoPopup(key)}>
                           <img src="/info.png" alt="Info" className="w-4 h-4" />
                         </button>
                       )}
@@ -178,62 +170,36 @@ const RevenueChart = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td
-                    colSpan={Object.keys(columnInfo).length}
-                    className="text-center px-4 py-8"
-                  >
-                    Loading data...
-                  </td>
+                  <td colSpan={Object.keys(columnInfo).length} className="text-center px-4 py-8">Loading data...</td>
                 </tr>
-              ) : data.length > 0 ? (
+              ) : data.length > 0 ? ( 
+
                 data.map((item, index) => (
+                  //iterate over each item (object containg metric: value for all metrics) and construct a row from it. 
+                  //construct data cells from the values of that item (row)
                   <tr key={index} className="hover:bg-gray-200">
-                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">
-                      {item.Date}
-                    </td>
-                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">
-                      {item.Revenue.toLocaleString()}
-                    </td>
-                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">
-                      {item.NetIncome.toLocaleString()}
-                    </td>
-                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">
-                      {item.GrossProfit.toLocaleString()}
-                    </td>
-                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">
-                      {item.EPS}
-                    </td>
-                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">
-                      {item.OperatingIncome.toLocaleString()}
-                    </td>
+                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">{item.Date}</td>
+                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">{item.Revenue.toLocaleString()}</td>
+                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">{item.NetIncome.toLocaleString()}</td>
+                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">{item.GrossProfit.toLocaleString()}</td>
+                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">{item.EPS}</td>
+                    <td className="border border-black px-4 py-2 text-center whitespace-nowrap">{item.OperatingIncome.toLocaleString()}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td
-                    colSpan={Object.keys(columnInfo).length}
-                    className="text-center px-4 py-8"
-                  >
-                    No data matches your filtering.
-                  </td>
+                  <td colSpan={Object.keys(columnInfo).length} className="text-center px-4 py-8">No data matches your filtering.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
         <div className="relative flex flex-col items-center gap-4 mt-0">
-          <div
-            className="font-bold cursor-pointer hover:underline flex items-center -mb-2 mr-4"
-            onClick={() => setFilterOpen(!filterOpen)}
-          >
-            <img
-              src="/filter.png"
-              alt="Filter Icon"
-              className="w-3 h-3 mr-1"
-            />
+          <div className="font-bold cursor-pointer hover:underline flex items-center -mb-2 mr-4" onClick={() => setFilterOpen(!filterOpen)}>
+            <img src="/filter.png" alt="Filter Icon" className="w-3 h-3 mr-1"/>
             <span>Filter {areFiltersActive() && "(active)"}</span>
           </div>
-          {/*Filter input section. Changes to inputs change temp filter values*/}
+          {/*Filter input section. Changes to inputs without applying filter will be stored in temp filter values*/}
           {filterOpen && (
             <div className="flex flex-col items-center gap-4">
               <div className="flex flex-wrap justify-center gap-4">
@@ -355,13 +321,9 @@ const RevenueChart = () => {
         {infoPopup && (
           <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-12 w-full max-w-md text-center">
             <p>
-              <strong>{columnInfo[infoPopup][0]}</strong>{" "}
-              {columnInfo[infoPopup][1]}
+              <strong>{columnInfo[infoPopup][0]}</strong>{" "}{columnInfo[infoPopup][1]}
             </p>
-            <button
-              onClick={() => setInfoPopup(null)}
-              className="font-bold px-2 py-1 text-black hover:underline mr-2 mt-2"
-            >
+            <button onClick={() => setInfoPopup(null)} className="font-bold px-2 py-1 text-black hover:underline mr-2 mt-2">
               Got it
             </button>
           </div>
@@ -369,7 +331,6 @@ const RevenueChart = () => {
       </div>
     </div>
   );
-  
 };
 
 export default RevenueChart;
