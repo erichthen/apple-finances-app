@@ -199,7 +199,7 @@ const RevenueChart = () => {
                     colSpan={Object.keys(columnInfo).length}
                     className="text-center px-4 py-8 text-red-500"
                   >
-                    Oh no! Data could not be retrieved.
+                    There was an error retrieving the data.
                   </td>
                 </tr>
               ) : data.length > 0 ? (
