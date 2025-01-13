@@ -5,8 +5,8 @@ import requests
 from flask_cors import CORS
 
 app = Flask(__name__)
-#allow cross origin requests from any origin ()
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+#allow cross origin requests 
+CORS(app)
 
 load_dotenv()
 
