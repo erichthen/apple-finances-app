@@ -1,6 +1,6 @@
 # Link:
 https://apple-income-chart.vercel.app
-Note that if request takes a long time, the server spun down and has to cold start
+**NOTE:** Due to API call limits, my app will not be able to retrieve data until around 11:00 to 11:30pm EST on January 13th. Also, if a request takes a long time, that is because the server spun down due to incactivity and has to cold start.
 
 # Instructions to Run Locally
 
