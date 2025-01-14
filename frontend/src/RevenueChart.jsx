@@ -240,7 +240,7 @@ const RevenueChart = () => {
         </div>
         <div className="relative flex flex-col items-center gap-4 mt-0">
           <div
-            className="font-bold cursor-pointer hover:underline flex items-center -mb-2 mr-4"
+            className="font-bold cursor-pointer hover:underline flex items-center -mb-2 mr-5"
             onClick={() => setFilterOpen(!filterOpen)}
           >
             <img src="/filter.png" alt="Filter Icon" className="w-3 h-3 mr-1" />
