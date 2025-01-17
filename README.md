@@ -1,5 +1,5 @@
 # Link: https://apple-income-chart.vercel.app
-**NOTE:** Due to API call limits, my app will not be able to retrieve data until around 11:00 to 11:30pm EST on January 13th. Also, if a request takes a long time, that is because the backend server spun down due to incactivity and has to cold start (using free tier of Render to host backend).
+**NOTE:** Due to API call limits, my app will not be able to retrieve data until around 11:00 to 11:30pm EST on January 13th. Also, if a request takes a long time, that is because the backend server spun down due to inactivity and has to cold start (using free tier of Render to host backend).
 
 # Instructions to Run Locally
 
@@ -18,46 +18,45 @@ If not installed already, install **Node.js**, **Python (version 3.8 or higher)*
 ## Step 2: Set up the backend
 
 1. Navigate to the backend directory: ```cd backend```
-2. Set up and activate a python venv (python virtual environment)
+2. Set up and activate a python venv (python virtual environment):
    ```python3 -m venv <any-environment-name>```
    ```source <environment-name>/bin/activate```
-3. Install required python packages (see requirements.txt)
+3. Install required python packages (see requirements.txt):
    ```pip install -r requirements.txt```
 
 ## Step 3: Obtain an FMP API KEY and store it
 
 1. Go to https://site.financialmodelingprep.com/developer/docs#income-statements-financial-statements
-2. Click on the purple text that says "Income Statements API"
-3. Sign in or make an account
+2. Click on the purple text that says "Income Statements API".
+3. Sign in or make an account.
 4. Click on the blue "Explore Endpoint" button.
 5. In the top right, click on the "API Url" button. 
 6. Your API key will be at the end of the URL, after "apikey=".
-7. In the backend folder, create a file called ".env" and add your API key
+7. In the backend folder, create a file called ".env" and add your API key:
    ```FMP_API_KEY=<your-api-key>```
 
 ## Step 4: Run the backend
 
-1. In your backend directory, run the command
+1. In your backend directory, run the command:
    ```python app.py```
    By default, the backend runs at http://127.0.0.1:5000.
 
 
 ## Step 5: Set up the frontend
 
-1. Navigate to the frontend directory
+1. Navigate to the frontend directory:
    ```cd ../frontend```
 
-2. Install the required Node.js packages
+2. Install the required Node.js packages:
    ```npm install```
 
-3. Start the development server
+3. Start the development server:
    ```npm run dev```
    By default, the frontend runs at http://localhost:5173.
 
 ## Step 6: Access the application
 
-1. Hold down command and click on the link to http://localhost:5173 that has been displayed in your terminal, 
-   or go to your browser and type in that link. 
+1. Hold down command and click on the link to http://localhost:5173 that has been displayed in your terminal, or go to your browser and type in that link. 
 
 2. From this point, you should be able to begin using the application. 
 
